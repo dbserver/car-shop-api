@@ -1,7 +1,7 @@
 package com.db.carshop.car.model;
 
 public enum Additional {
-    AIR_CONDITIONING("AIR CONDITIONING"),
+    AIR_CONDITIONING("AIR_CONDITIONING"),
     ELECTRIC_LOCKS("ELECTRIC_LOCKS"),
     STEREO("STEREO"),
     POWER_STEERING("POWER_STEERING");

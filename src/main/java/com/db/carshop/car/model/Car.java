@@ -9,7 +9,7 @@ import lombok.*;
 @EqualsAndHashCode
 @Data
 @Entity
-@Table(name = "foster_next_visit")
+@Table(name = "car")
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
