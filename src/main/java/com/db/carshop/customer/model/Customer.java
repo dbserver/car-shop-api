@@ -1,4 +1,4 @@
-package com.db.carshop.client.model;
+package com.db.carshop.customer.model;
 
 import com.db.carshop.car.model.Car;
 import com.db.carshop.person.Person;
@@ -13,8 +13,8 @@ import java.util.List;
 @EqualsAndHashCode
 @Data
 @Entity
-@Table(name = "client")
-public class Client extends Person {
+@Table(name = "customer")
+public class Customer extends Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
