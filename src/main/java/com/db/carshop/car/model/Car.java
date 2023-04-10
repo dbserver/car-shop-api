@@ -1,7 +1,10 @@
 package com.db.carshop.car.model;
 
-import jakarta.persistence.*;
+import com.db.carshop.customer.model.Customer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+
+import javax.persistence.*;
 
 @Builder
 @NoArgsConstructor
@@ -24,4 +27,11 @@ public class Car {
     private Additional additional;
     private Boolean available;
 
+    @ManyToOne
+    @JoinColumn(name = "customer_id", insertable = false, updatable = false)
+    private Customer customerSeller;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", insertable = false, updatable = false)
+    private Customer customerBuyer;
 }

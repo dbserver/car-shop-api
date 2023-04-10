@@ -1,4 +1,62 @@
 package com.db.carshop.employee;
 
+
+import com.db.carshop.employee.dto.EmployeeInputDto;
+import com.db.carshop.employee.dto.EmployeeOutputDto;
+import com.db.carshop.employee.exceptions.EmployeeDoesNotExistException;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@AllArgsConstructor
+@RequestMapping("/employee")
 public class EmployeeController {
+    private EmployeeService service;
+
+    @PostMapping
+    public ResponseEntity<Object> createEmployee(@RequestBody EmployeeInputDto inputDto) {
+        try{
+            return new ResponseEntity<>(service.createEmployee(inputDto), HttpStatus.CREATED);
+        }catch (Exception exception){
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<Object> updateEmployee(@RequestBody EmployeeInputDto inputDto) {
+        try{
+            return new ResponseEntity<>(service.updateEmployee(inputDto), HttpStatus.OK);
+        }catch (EmployeeDoesNotExistException exception){
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> findById(@PathVariable Long id) {
+        try{
+            return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
+        }catch (EmployeeDoesNotExistException exception){
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<EmployeeOutputDto>> findAll() {
+        return new ResponseEntity<>(service.getAll(),
+                HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteById(@PathVariable Long id){
+        try{
+            service.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (EmployeeDoesNotExistException exception){
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

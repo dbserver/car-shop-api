@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@Builder
 @EqualsAndHashCode
 public class EmployeeInputDto extends Person {
     private String password;
