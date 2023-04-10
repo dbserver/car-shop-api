@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories
 public class CarConfig {
     @Bean
-    public CarService carService(CarRepository carRepository) {
-        return new CarServiceImpl(carRepository);
+    public CarService carService(CarRepository carRepository, CarMapper mapper) {
+        return new CarServiceImpl(carRepository, mapper);
     }
 }

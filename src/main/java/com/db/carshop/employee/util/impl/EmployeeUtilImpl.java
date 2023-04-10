@@ -8,6 +8,20 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class EmployeeUtilImpl implements EmployeeUtil {
+
+    @Override
+    public Employee employeeInputDtoToEmployee(EmployeeInputDto inputDto) {
+        return  Employee.builder()
+                .password(inputDto.getPassword())
+                .type(inputDto.getType())
+                .name(inputDto.getName())
+                .phone(inputDto.getPhone())
+                .email(inputDto.getEmail())
+                .address(inputDto.getAddress())
+                .cpf(inputDto.getCpf())
+                .build();
+    }
+
     @Override
     public EmployeeOutputDto employeeToOutputDto(Employee employee) {
         EmployeeOutputDto dto = new EmployeeOutputDto();

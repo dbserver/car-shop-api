@@ -26,19 +26,19 @@ public class EmployeeController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<Object> updateEmployee(@RequestBody EmployeeInputDto inputDto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateEmployee(@RequestBody EmployeeInputDto inputDto, @PathVariable Long id) {
         try{
-            return new ResponseEntity<>(service.updateEmployee(inputDto), HttpStatus.OK);
+            return new ResponseEntity<>(service.updateEmployee(inputDto, id), HttpStatus.OK);
         }catch (EmployeeDoesNotExistException exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> findById(@PathVariable Long id) {
+    public ResponseEntity<Object> getById(@PathVariable Long id) {
         try{
-            return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
+            return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
         }catch (EmployeeDoesNotExistException exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }

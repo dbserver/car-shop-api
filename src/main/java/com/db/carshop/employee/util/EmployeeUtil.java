@@ -6,6 +6,7 @@ import com.db.carshop.employee.model.Employee;
 
 
 public interface EmployeeUtil {
+    Employee employeeInputDtoToEmployee(EmployeeInputDto inputDto);
     EmployeeOutputDto employeeToOutputDto(Employee employee);
     EmployeeOutputDto employeeInputToOutputDto(EmployeeInputDto inputDto);
 }

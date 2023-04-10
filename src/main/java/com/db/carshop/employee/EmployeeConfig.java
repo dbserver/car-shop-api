@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class EmployeeConfig {
     @Bean
     public EmployeeService employeeService(EmployeeRepository employeeRepository,
-                                           EmployeeUtil util) {
-        return new EmployeeServiceImpl(employeeRepository, util);
+                                           EmployeeUtil util, EmployeeMapper mapper) {
+        return new EmployeeServiceImpl(employeeRepository, util, mapper);
     }
 }
