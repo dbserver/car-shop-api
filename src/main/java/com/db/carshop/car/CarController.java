@@ -1,7 +1,6 @@
 package com.db.carshop.car;
 
 import com.db.carshop.car.dto.CarDto;
-import com.db.carshop.car.dto.CarUpdateDto;
 import com.db.carshop.car.exceptions.CarDoesNotExistException;
 import com.db.carshop.car.model.Car;
 import lombok.AllArgsConstructor;
@@ -27,10 +26,10 @@ public class CarController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<Object> updateCar(@RequestBody CarUpdateDto dto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateCar(@RequestBody CarDto dto, @PathVariable Long id) {
         try{
-            return new ResponseEntity<>( carService.updateCar(dto), HttpStatus.OK);
+            return new ResponseEntity<>(carService.updateCar(dto, id), HttpStatus.OK);
         }catch (CarDoesNotExistException exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -52,9 +51,8 @@ public class CarController {
     }
 
 
-
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Long id){
+    public ResponseEntity deleteById(@PathVariable Long id){
         try{
             carService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);

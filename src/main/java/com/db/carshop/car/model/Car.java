@@ -1,7 +1,9 @@
 package com.db.carshop.car.model;
 
-import jakarta.persistence.*;
+
 import lombok.*;
+
+import javax.persistence.*;
 
 @Builder
 @NoArgsConstructor
@@ -23,5 +25,4 @@ public class Car {
     private NumberPassengers numberPassengers;
     private Additional additional;
     private Boolean available;
-
 }

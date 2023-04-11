@@ -1,11 +1,14 @@
 package com.db.carshop.employee.model;
 
 import com.db.carshop.person.Person;
-import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+
+import javax.persistence.*;
 
 @NoArgsConstructor
-@EqualsAndHashCode
+@AllArgsConstructor
+@SuperBuilder
 @Data
 @Entity
 @Table(name = "employee")
