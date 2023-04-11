@@ -5,7 +5,6 @@ import com.db.carshop.car.CarMapper;
 import com.db.carshop.car.CarRepository;
 import com.db.carshop.car.CarService;
 import com.db.carshop.car.dto.CarDto;
-import com.db.carshop.car.dto.CarUpdateDto;
 import com.db.carshop.car.exceptions.CarDoesNotExistException;
 import com.db.carshop.car.model.Car;
 import lombok.AllArgsConstructor;
@@ -37,9 +36,9 @@ public class CarServiceImpl implements CarService {
 
 
     @Override
-    public Car updateCar(CarUpdateDto updateDto) {
-        Car car = findById(updateDto.getCarId());
-        carMapper.updateCarFromDto(updateDto.getCarDto(), car);
+    public Car updateCar(CarDto dto, Long id) {
+        Car car = findById(id);
+        carMapper.updateCarFromDto(dto, car);
 
         return repository.save(car);
     }

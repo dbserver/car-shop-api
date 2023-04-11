@@ -5,6 +5,7 @@ import com.db.carshop.employee.EmployeeRepository;
 import com.db.carshop.employee.EmployeeService;
 import com.db.carshop.employee.dto.EmployeeInputDto;
 import com.db.carshop.employee.dto.EmployeeOutputDto;
+import com.db.carshop.employee.exceptions.EmployeeAlreadyExistsException;
 import com.db.carshop.employee.exceptions.EmployeeDoesNotExistException;
 import com.db.carshop.employee.model.Employee;
 import com.db.carshop.employee.util.EmployeeUtil;
@@ -22,7 +23,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeOutputDto createEmployee(EmployeeInputDto inputDto) {
+        verifyIfEmailAlreadyExists(inputDto.getEmail());
+
         Employee employee = util.employeeInputDtoToEmployee(inputDto);
+
         employee = repository.save(employee);
         return util.employeeToOutputDto(employee);
     }
@@ -30,6 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeOutputDto updateEmployee(EmployeeInputDto inputDto, Long id) {
         Employee employee = findById(id);
+        verifyIfEmailAlreadyExists(inputDto.getEmail());
 
         employeeMapper.updateEmployeeFromDto(inputDto, employee);
         repository.save(employee);
@@ -60,6 +65,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee findById(Long id) {
         return repository.findById(id)
                 .orElseThrow(EmployeeDoesNotExistException::new);
+    }
+
+    public void verifyIfEmailAlreadyExists(String email){
+        if(repository.findByEmail(email).isPresent()){
+            throw new EmployeeAlreadyExistsException();
+        }
     }
 
 }

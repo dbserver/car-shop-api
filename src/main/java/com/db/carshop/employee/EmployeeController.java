@@ -3,6 +3,7 @@ package com.db.carshop.employee;
 
 import com.db.carshop.employee.dto.EmployeeInputDto;
 import com.db.carshop.employee.dto.EmployeeOutputDto;
+import com.db.carshop.employee.exceptions.EmployeeAlreadyExistsException;
 import com.db.carshop.employee.exceptions.EmployeeDoesNotExistException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class EmployeeController {
     public ResponseEntity<Object> createEmployee(@RequestBody EmployeeInputDto inputDto) {
         try{
             return new ResponseEntity<>(service.createEmployee(inputDto), HttpStatus.CREATED);
-        }catch (Exception exception){
+        }catch (EmployeeAlreadyExistsException exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -30,7 +31,7 @@ public class EmployeeController {
     public ResponseEntity<Object> updateEmployee(@RequestBody EmployeeInputDto inputDto, @PathVariable Long id) {
         try{
             return new ResponseEntity<>(service.updateEmployee(inputDto, id), HttpStatus.OK);
-        }catch (EmployeeDoesNotExistException exception){
+        }catch (EmployeeDoesNotExistException  | EmployeeAlreadyExistsException exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
