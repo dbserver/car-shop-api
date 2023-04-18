@@ -7,6 +7,7 @@ import com.db.carshop.car.CarService;
 import com.db.carshop.car.dto.CarDto;
 import com.db.carshop.car.exceptions.CarDoesNotExistException;
 import com.db.carshop.car.model.Car;
+import com.db.carshop.employee.model.Employee;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -15,7 +16,6 @@ import java.util.List;
 public class CarServiceImpl implements CarService {
     private CarRepository repository;
     private CarMapper carMapper;
-
 
     @Override
     public Car createCar(CarDto carDto) {
@@ -44,9 +44,27 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public Car updateCarAvailable(Boolean available, Car car) {
+        car.setAvailable(available);
+        return repository.save(car);
+    }
+
+    @Override
+    public Car updatEmployeeBoughtCar(Employee employee, Car car) {
+        car.setEmployeeBought(employee);
+        return repository.save(car);
+    }
+
+    @Override
+    public Car updatEmployeeSoldCar(Employee employee, Car car) {
+        car.setEmployeeSold(employee);
+        return repository.save(car);
+    }
+
+    @Override
     public Car findById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new CarDoesNotExistException());
+                .orElseThrow(CarDoesNotExistException::new);
     }
 
     @Override

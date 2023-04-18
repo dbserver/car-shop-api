@@ -1,6 +1,8 @@
 package com.db.carshop.car.model;
 
 
+import com.db.carshop.employee.model.Employee;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,4 +27,12 @@ public class Car {
     private NumberPassengers numberPassengers;
     private Additional additional;
     private Boolean available;
+
+    @ManyToOne
+    @JsonIgnore
+    private Employee employeeBought;
+
+    @ManyToOne
+    @JsonIgnore
+    private Employee employeeSold;
 }

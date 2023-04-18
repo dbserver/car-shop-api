@@ -1,6 +1,7 @@
 package com.db.carshop.employee;
 
 
+import com.db.carshop.car.exceptions.CarDoesNotExistException;
 import com.db.carshop.employee.dto.EmployeeInputDto;
 import com.db.carshop.employee.dto.EmployeeOutputDto;
 import com.db.carshop.employee.exceptions.EmployeeAlreadyExistsException;
@@ -17,6 +18,7 @@ import java.util.List;
 @RequestMapping("/employee")
 public class EmployeeController {
     private EmployeeService service;
+
 
     @PostMapping
     public ResponseEntity<Object> createEmployee(@RequestBody EmployeeInputDto inputDto) {
@@ -57,6 +59,26 @@ public class EmployeeController {
             service.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (EmployeeDoesNotExistException exception){
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PatchMapping("/{id}/car/{carId}/buy")
+    public ResponseEntity<Object> buyCar(@PathVariable Long id, @PathVariable Long carId) {
+        try{
+            service.buyCar(id, carId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (EmployeeDoesNotExistException | CarDoesNotExistException exception){
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PatchMapping("/{id}/car/{carId}/sell")
+    public ResponseEntity<Object> sellCar(@PathVariable Long id, @PathVariable Long carId) {
+        try{
+            service.sellCar(id, carId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (EmployeeDoesNotExistException | CarDoesNotExistException exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }

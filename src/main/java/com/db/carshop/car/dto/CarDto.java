@@ -3,7 +3,12 @@ package com.db.carshop.car.dto;
 import com.db.carshop.car.model.Additional;
 import com.db.carshop.car.model.Fuel;
 import com.db.carshop.car.model.NumberPassengers;
+import com.db.carshop.employee.model.Employee;
 import lombok.*;
+
+import javax.persistence.ForeignKey;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Data
 @Builder

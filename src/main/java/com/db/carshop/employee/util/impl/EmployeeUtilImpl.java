@@ -6,14 +6,18 @@ import com.db.carshop.employee.model.Employee;
 import com.db.carshop.employee.util.EmployeeUtil;
 import lombok.AllArgsConstructor;
 
+import java.util.ArrayList;
+
 @AllArgsConstructor
 public class EmployeeUtilImpl implements EmployeeUtil {
 
     @Override
-    public Employee employeeInputDtoToEmployee(EmployeeInputDto inputDto) {
+    public Employee inputDtoToEmployee(EmployeeInputDto inputDto) {
         return  Employee.builder()
                 .password(inputDto.getPassword())
                 .type(inputDto.getType())
+                .boughtCars(new ArrayList<>())
+                .soldCars(new ArrayList<>())
                 .name(inputDto.getName())
                 .phone(inputDto.getPhone())
                 .email(inputDto.getEmail())
@@ -32,20 +36,10 @@ public class EmployeeUtilImpl implements EmployeeUtil {
         dto.setEmail(employee.getEmail());
         dto.setAddress(employee.getAddress());
         dto.setCpf(employee.getCpf());
+        dto.setBoughtCars(employee.getBoughtCars());
+        dto.setCarsSold(employee.getSoldCars());
 
         return dto;
     }
 
-    @Override
-    public EmployeeOutputDto employeeInputToOutputDto(EmployeeInputDto inputDto) {
-        EmployeeOutputDto dto = new EmployeeOutputDto();
-        dto.setType(inputDto.getType());
-        dto.setName(inputDto.getName());
-        dto.setPhone(inputDto.getPhone());
-        dto.setEmail(inputDto.getEmail());
-        dto.setAddress(inputDto.getAddress());
-        dto.setCpf(inputDto.getCpf());
-
-        return dto;
-    }
 }
