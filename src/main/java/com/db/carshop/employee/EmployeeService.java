@@ -2,6 +2,7 @@ package com.db.carshop.employee;
 
 import com.db.carshop.employee.dto.EmployeeInputDto;
 import com.db.carshop.employee.dto.EmployeeOutputDto;
+import com.db.carshop.employee.model.Employee;
 
 import java.util.List;
 
@@ -12,5 +13,6 @@ public interface EmployeeService {
     EmployeeOutputDto updateEmployee(EmployeeInputDto inputDto, Long id);
     EmployeeOutputDto getById(Long id);
     List<EmployeeOutputDto> getAll();
+    Employee getByEmail(String email);
     void deleteById(Long id);
 }

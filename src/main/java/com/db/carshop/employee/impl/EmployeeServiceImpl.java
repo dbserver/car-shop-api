@@ -77,6 +77,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Employee getByEmail(String email) {
+        return repository.findByEmail(email)
+                .orElseThrow(EmployeeDoesNotExistException::new);
+    }
+
+    @Override
     public void deleteById(Long id) {
         removeBoughtCarsAndSoldCars(findById(id));
 
