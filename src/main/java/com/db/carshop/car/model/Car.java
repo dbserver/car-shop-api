@@ -1,7 +1,8 @@
 package com.db.carshop.car.model;
 
 
-import com.db.carshop.employee.model.Employee;
+import com.db.carshop.sale.model.Sale;
+import com.db.carshop.store.model.Store;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -30,9 +31,8 @@ public class Car {
 
     @ManyToOne
     @JsonIgnore
-    private Employee employeeBought;
+    private Store store;
 
-    @ManyToOne
-    @JsonIgnore
-    private Employee employeeSold;
+    @OneToOne(mappedBy = "car")
+    private Sale sale;
 }

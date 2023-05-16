@@ -14,8 +14,7 @@ public class EmployeeConfig {
     @Bean
     public EmployeeService employeeService(EmployeeRepository employeeRepository,
                                            EmployeeUtil util,
-                                           CarService carService,
                                            EmployeeMapper mapper) {
-        return new EmployeeServiceImpl(employeeRepository, carService, util, mapper);
+        return new EmployeeServiceImpl(employeeRepository, util, mapper);
     }
 }

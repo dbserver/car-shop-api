@@ -7,7 +7,7 @@ import com.db.carshop.car.CarService;
 import com.db.carshop.car.dto.CarDto;
 import com.db.carshop.car.exceptions.CarDoesNotExistException;
 import com.db.carshop.car.model.Car;
-import com.db.carshop.employee.model.Employee;
+import com.db.carshop.store.StoreService;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -16,6 +16,7 @@ import java.util.List;
 public class CarServiceImpl implements CarService {
     private CarRepository repository;
     private CarMapper carMapper;
+    private StoreService storeService;
 
     @Override
     public Car createCar(CarDto carDto) {
@@ -29,6 +30,7 @@ public class CarServiceImpl implements CarService {
                 .numberPassengers(carDto.getNumberPassengers())
                 .additional(carDto.getAdditional())
                 .available(true)
+                .store(storeService.findById(carDto.getStoreId()))
                 .build();
 
         return repository.save(car);
@@ -37,7 +39,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Car updateCar(CarDto dto, Long id) {
-        Car car = findById(id);
+        Car car = getById(id);
         carMapper.updateCarFromDto(dto, car);
 
         return repository.save(car);
@@ -50,19 +52,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car updatEmployeeBoughtCar(Employee employee, Car car) {
-        car.setEmployeeBought(employee);
-        return repository.save(car);
-    }
-
-    @Override
-    public Car updatEmployeeSoldCar(Employee employee, Car car) {
-        car.setEmployeeSold(employee);
-        return repository.save(car);
-    }
-
-    @Override
-    public Car findById(Long id) {
+    public Car getById(Long id) {
         return repository.findById(id)
                 .orElseThrow(CarDoesNotExistException::new);
     }
@@ -74,10 +64,21 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void deleteById(Long id) {
-
         if (!repository.existsById(id)) {
             throw new CarDoesNotExistException();
         }
         repository.deleteById(id);
     }
+
+   /* @Override
+    public Car updatEmployeeBoughtCar(Employee employee, Car car) {
+        return repository.save(car);
+    }
+
+    @Override
+    public Car updatEmployeeSoldCar(Employee employee, Car car) {
+        return repository.save(car);
+    }*/
+
+
 }

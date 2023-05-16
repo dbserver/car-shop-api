@@ -36,9 +36,9 @@ public class CarController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> findById(@PathVariable Long id) {
+    public ResponseEntity<Object> getById(@PathVariable Long id) {
         try{
-            return new ResponseEntity<>(carService.findById(id), HttpStatus.OK);
+            return new ResponseEntity<>(carService.getById(id), HttpStatus.OK);
         }catch (CarDoesNotExistException exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }

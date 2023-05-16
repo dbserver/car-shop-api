@@ -10,9 +10,7 @@ public interface CarService {
     Car createCar(CarDto carDto);
     Car updateCar(CarDto carDto, Long id);
     Car updateCarAvailable(Boolean available, Car car);
-    Car updatEmployeeBoughtCar(Employee employee, Car car);
-    Car updatEmployeeSoldCar(Employee employee, Car car);
-    Car findById(Long id);
+    Car getById(Long id);
     List<Car> getAll();
     void deleteById(Long id);
 }

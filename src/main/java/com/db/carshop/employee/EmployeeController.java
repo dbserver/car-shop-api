@@ -1,7 +1,7 @@
 package com.db.carshop.employee;
 
 
-import com.db.carshop.car.exceptions.CarDoesNotExistException;
+
 import com.db.carshop.employee.dto.EmployeeInputDto;
 import com.db.carshop.employee.dto.EmployeeOutputDto;
 import com.db.carshop.employee.exceptions.EmployeeAlreadyExistsException;
@@ -41,7 +41,7 @@ public class EmployeeController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getById(@PathVariable Long id) {
         try{
-            return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
+            return new ResponseEntity<>(service.getOutputDtoById(id), HttpStatus.OK);
         }catch (EmployeeDoesNotExistException exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -63,23 +63,23 @@ public class EmployeeController {
         }
     }
 
-    @PatchMapping("/{id}/car/{carId}/buy")
+    /*@PatchMapping("/{id}/car/{carId}/buy")
     public ResponseEntity<Object> buyCar(@PathVariable Long id, @PathVariable Long carId) {
         try{
             service.buyCar(id, carId);
             return new ResponseEntity<>(HttpStatus.OK);
-        }catch (EmployeeDoesNotExistException | CarDoesNotExistException exception){
+        }catch (CustomerDoesNotExistException | CarDoesNotExistException exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PatchMapping("/{id}/car/{carId}/sell")
+    @PatchMapping("/{id}/car/{carId}/sale")
     public ResponseEntity<Object> sellCar(@PathVariable Long id, @PathVariable Long carId) {
         try{
             service.sellCar(id, carId);
             return new ResponseEntity<>(HttpStatus.OK);
-        }catch (EmployeeDoesNotExistException | CarDoesNotExistException exception){
+        }catch (CustomerDoesNotExistException | CarDoesNotExistException exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
-    }
+    }*/
 }
