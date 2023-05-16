@@ -1,6 +1,9 @@
 package com.db.carshop.car.model;
 
 
+import com.db.carshop.sale.model.Sale;
+import com.db.carshop.store.model.Store;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,4 +28,11 @@ public class Car {
     private NumberPassengers numberPassengers;
     private Additional additional;
     private Boolean available;
+
+    @ManyToOne
+    @JsonIgnore
+    private Store store;
+
+    @OneToOne(mappedBy = "car")
+    private Sale sale;
 }

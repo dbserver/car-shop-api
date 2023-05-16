@@ -17,4 +17,5 @@ public class CarDto {
     private Fuel fuel;
     private NumberPassengers numberPassengers;
     private Additional additional;
+    private Long storeId;
 }

@@ -17,24 +17,25 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 
 public class EmployeeServiceImpl implements EmployeeService {
-   private EmployeeRepository repository;
-   private EmployeeUtil util;
-   private EmployeeMapper employeeMapper;
+    private EmployeeRepository repository;
+    private EmployeeUtil util;
+    private EmployeeMapper employeeMapper;
 
     @Override
     public EmployeeOutputDto createEmployee(EmployeeInputDto inputDto) {
         verifyIfEmailAlreadyExists(inputDto.getEmail());
 
-        Employee employee = util.employeeInputDtoToEmployee(inputDto);
-
+        Employee employee = util.inputDtoToEmployee(inputDto);
         employee = repository.save(employee);
+
         return util.employeeToOutputDto(employee);
     }
 
     @Override
     public EmployeeOutputDto updateEmployee(EmployeeInputDto inputDto, Long id) {
-        Employee employee = findById(id);
         verifyIfEmailAlreadyExists(inputDto.getEmail());
+
+        Employee employee = getById(id);
 
         employeeMapper.updateEmployeeFromDto(inputDto, employee);
         repository.save(employee);
@@ -43,34 +44,59 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeOutputDto getById(Long id) {
-        return util.employeeToOutputDto(findById(id));
+    public EmployeeOutputDto getOutputDtoById(Long id) {
+        return util.employeeToOutputDto(getById(id));
     }
 
     @Override
-    public List<EmployeeOutputDto> getAll() {
-       return repository.findAll().stream()
-               .map(employee -> util.employeeToOutputDto(employee))
-               .collect(Collectors.toList());
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        if (!repository.existsById(id)) {
-            throw new EmployeeDoesNotExistException();
-        }
-        repository.deleteById(id);
-    }
-
-    public Employee findById(Long id) {
+    public Employee getById(Long id) {
         return repository.findById(id)
                 .orElseThrow(EmployeeDoesNotExistException::new);
     }
 
-    public void verifyIfEmailAlreadyExists(String email){
-        if(repository.findByEmail(email).isPresent()){
+    @Override
+    public List<EmployeeOutputDto> getAll() {
+        return repository.findAll().stream()
+                .map(employee -> util.employeeToOutputDto(employee))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
+
+    @Override
+    public Employee getByEmail(String email) {
+        return repository.findByUserEmail(email)
+                .orElseThrow(EmployeeDoesNotExistException::new);
+    }
+
+    private void verifyIfEmailAlreadyExists(String email) {
+        if (repository.findByUserEmail(email).isPresent()) {
             throw new EmployeeAlreadyExistsException();
         }
     }
+
+     /*
+
+     @Override
+    public void buyCar(Long employeeId, Long carId) {
+        Employee employee = findById(employeeId);
+        Car car = carService.findById(carId);
+
+        carService.updateCarAvailable(true, car);
+        carService.updatEmployeeBoughtCar(employee, car);
+    }
+
+    @Override
+    public void sellCar(Long employeeId, Long carId) {
+        Employee employee = findById(employeeId);
+        Car car = carService.findById(carId);
+
+        carService.updateCarAvailable(false, car);
+        carService.updatEmployeeSoldCar(employee, car);
+    }*/
 
 }
