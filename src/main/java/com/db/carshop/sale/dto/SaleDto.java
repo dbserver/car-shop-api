@@ -10,5 +10,5 @@ import lombok.EqualsAndHashCode;
 public class SaleDto {
     private Long carId;
     private Long customerId;
-    private Long EmployeeId;
+    private Long employeeId;
 }

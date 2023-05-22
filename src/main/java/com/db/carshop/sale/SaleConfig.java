@@ -14,10 +14,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class SaleConfig {
     @Bean
     public SaleService saleService(SaleRepository repository,
-                                   SaleMapper mapper,
                                    CarService carService,
                                    EmployeeService employeeService,
                                    CustomerService customerService) {
-        return new SaleServiceImpl(repository, mapper, carService, employeeService, customerService);
+        return new SaleServiceImpl(repository, carService, employeeService, customerService);
     }
 }

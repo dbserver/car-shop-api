@@ -1,6 +1,5 @@
 package com.db.carshop.employee.impl;
 
-import com.db.carshop.employee.EmployeeMapper;
 import com.db.carshop.employee.EmployeeRepository;
 import com.db.carshop.employee.EmployeeService;
 import com.db.carshop.employee.dto.EmployeeInputDto;
@@ -19,7 +18,6 @@ import java.util.stream.Collectors;
 public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository repository;
     private EmployeeUtil util;
-    private EmployeeMapper employeeMapper;
 
     @Override
     public EmployeeOutputDto createEmployee(EmployeeInputDto inputDto) {
@@ -33,12 +31,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeOutputDto updateEmployee(EmployeeInputDto inputDto, Long id) {
-        verifyIfEmailAlreadyExists(inputDto.getEmail());
+        verifyIfEmailAlreadyExistsInUpdate(id,inputDto.getEmail());
 
         Employee employee = getById(id);
 
-        employeeMapper.updateEmployeeFromDto(inputDto, employee);
-        repository.save(employee);
+        if(inputDto.getName() != null){
+            employee.setName(inputDto.getName());
+        }
+        if(inputDto.getEmail() != null){
+            employee.getUser().setEmail(inputDto.getEmail());
+        }
+        if(inputDto.getPassword() != null){
+            employee.getUser().setPassword(inputDto.getPassword());
+        }
+
+        employee = repository.save(employee);
+
 
         return util.employeeToOutputDto(employee);
     }
@@ -63,6 +71,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void deleteById(Long id) {
+        if (!repository.existsById(id)) {
+            throw new EmployeeDoesNotExistException();
+        }
         repository.deleteById(id);
     }
 
@@ -79,24 +90,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
-     /*
+    private void verifyIfEmailAlreadyExistsInUpdate(Long employeeId, String email) {
+        Employee employeeOfDTO= repository.findByUserEmail(email)
+                .orElse(null);
 
-     @Override
-    public void buyCar(Long employeeId, Long carId) {
-        Employee employee = findById(employeeId);
-        Car car = carService.findById(carId);
-
-        carService.updateCarAvailable(true, car);
-        carService.updatEmployeeBoughtCar(employee, car);
+        if(employeeOfDTO!= null &&
+                !employeeOfDTO.getId().equals(employeeId)){
+            throw new EmployeeAlreadyExistsException();
+        }
     }
-
-    @Override
-    public void sellCar(Long employeeId, Long carId) {
-        Employee employee = findById(employeeId);
-        Car car = carService.findById(carId);
-
-        carService.updateCarAvailable(false, car);
-        carService.updatEmployeeSoldCar(employee, car);
-    }*/
 
 }

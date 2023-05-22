@@ -15,7 +15,4 @@ public interface EmployeeService {
     List<EmployeeOutputDto> getAll();
     void deleteById(Long id);
 
-    /*void buyCar(Long employeeId, Long carId);
-    void sellCar(Long employeeId, Long carId);*/
-
 }

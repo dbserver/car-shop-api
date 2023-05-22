@@ -30,7 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer updateCustomer(CustomerDto dto, Long id) {
         Customer customer = getById(id);
-        verifyIfCpfAlreadyExists(dto.getCpf());
+        verifyIfCpfAlreadyExistsInUpdate(id, dto.getCpf());
 
         customerMapper.updateCustomerFromDto(dto, customer);
         return repository.save(customer);
@@ -61,6 +61,13 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
+    private void verifyIfCpfAlreadyExistsInUpdate(Long customerId, String cpf) {
+        Customer customerOfDTO= repository.findByCpf(cpf)
+                .orElse(null);
 
-
+        if(customerOfDTO!= null &&
+                !customerOfDTO.getId().equals(customerId)){
+            throw new CustomerAlreadyExistsException();
+        }
+    }
 }

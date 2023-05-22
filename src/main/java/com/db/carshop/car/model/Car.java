@@ -1,6 +1,5 @@
 package com.db.carshop.car.model;
 
-
 import com.db.carshop.sale.model.Sale;
 import com.db.carshop.store.model.Store;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,7 +11,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "car")
 public class Car {
@@ -34,5 +34,6 @@ public class Car {
     private Store store;
 
     @OneToOne(mappedBy = "car")
+    @JsonIgnore
     private Sale sale;
 }

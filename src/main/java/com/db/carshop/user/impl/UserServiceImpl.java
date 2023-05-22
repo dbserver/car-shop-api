@@ -1,6 +1,5 @@
 package com.db.carshop.user.impl;
 
-import com.db.carshop.security.UserDetailsService;
 import com.db.carshop.user.User;
 import com.db.carshop.user.UserRepository;
 import com.db.carshop.user.UserService;

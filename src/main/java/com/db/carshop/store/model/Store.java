@@ -2,10 +2,7 @@ package com.db.carshop.store.model;
 
 import com.db.carshop.car.model.Car;
 import com.db.carshop.employee.model.Employee;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,7 +10,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @Entity
 @Table(name = "store")
 public class Store {

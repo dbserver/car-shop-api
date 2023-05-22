@@ -1,13 +1,11 @@
 package com.db.carshop.authentication.impl;
 
 import com.db.carshop.authentication.AuthTokenService;
-import com.db.carshop.security.impl.UserDetailsImpl;
-import com.db.carshop.user.User;
+import com.db.carshop.core.security.impl.UserDetailsImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Date;
 

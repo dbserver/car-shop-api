@@ -1,11 +1,10 @@
 package com.db.carshop.sale.impl;
 
 import com.db.carshop.car.CarService;
+import com.db.carshop.car.exceptions.CarAlreadySoldException;
 import com.db.carshop.car.model.Car;
 import com.db.carshop.customer.CustomerService;
-import com.db.carshop.customer.exceptions.CustomerDoesNotExistException;
 import com.db.carshop.employee.EmployeeService;
-import com.db.carshop.sale.SaleMapper;
 import com.db.carshop.sale.SaleRepository;
 import com.db.carshop.sale.SaleService;
 import com.db.carshop.sale.dto.SaleDto;
@@ -18,7 +17,6 @@ import java.util.List;
 @AllArgsConstructor
 public class SaleServiceImpl implements SaleService {
     private SaleRepository repository;
-    private SaleMapper mapper;
     private CarService carService;
     private EmployeeService employeeService;
     private CustomerService customerService;
@@ -26,6 +24,8 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public Sale createSale(SaleDto dto) {
         Car car = carService.getById(dto.getCarId());
+
+        verifyIfCarAlreadySold(car.getAvailable());
 
         Sale sale = Sale.builder()
                 .car(car)
@@ -41,10 +41,22 @@ public class SaleServiceImpl implements SaleService {
     public Sale updateSale(SaleDto dto, Long id) {
         Sale sale = getById(id);
 
-        mapper.updateSaleFromDto(dto, sale);
+        Car car = carService.getById(dto.getCarId());
+        verifyIfCarAlreadySoldInUpdate(car.getAvailable(), car, sale.getCar());
 
-        carService.updateCarAvailable(false, carService.getById(dto.getCarId()));
-        return repository.save(sale);
+        if(dto.getCarId() != null){
+            carService.updateCarAvailable(true, sale.getCar());
+            sale.setCar(car);
+        }
+        if(dto.getCustomerId() != null){
+            sale.setCustomer(customerService.getById(dto.getCustomerId()));
+        }
+        if(dto.getEmployeeId() != null){
+            sale.setEmployee(employeeService.getById(dto.getEmployeeId()));
+        }
+
+        carService.updateCarAvailable(false, car);
+            return repository.save(sale);
     }
 
     @Override
@@ -60,9 +72,22 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public void deleteById(Long id) {
-        if (!repository.existsById(id)) {
-            throw new CustomerDoesNotExistException();
-        }
+        Sale sale = getById(id);
+        carService.updateCarAvailable(true, sale.getCar());
+
         repository.deleteById(id);
+    }
+
+    public void verifyIfCarAlreadySold(Boolean available){
+        if(available.equals(Boolean.FALSE)){
+            throw new CarAlreadySoldException();
+        }
+    }
+
+    public void verifyIfCarAlreadySoldInUpdate(Boolean available, Car carOfDto, Car saleCar){
+        if(available.equals(Boolean.FALSE) &&
+                !carOfDto.getId().equals(saleCar.getId())){
+            throw new CarAlreadySoldException();
+        }
     }
 }

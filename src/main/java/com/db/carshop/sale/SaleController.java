@@ -1,5 +1,6 @@
 package com.db.carshop.sale;
 
+import com.db.carshop.car.exceptions.CarAlreadySoldException;
 import com.db.carshop.car.exceptions.CarDoesNotExistException;
 import com.db.carshop.customer.exceptions.CustomerDoesNotExistException;
 import com.db.carshop.employee.exceptions.EmployeeDoesNotExistException;
@@ -26,6 +27,7 @@ public class SaleController {
             return new ResponseEntity<>(saleService.createSale(dto), HttpStatus.CREATED);
         }catch (CustomerDoesNotExistException |
                 CarDoesNotExistException |
+                CarAlreadySoldException |
                 EmployeeDoesNotExistException exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -38,6 +40,7 @@ public class SaleController {
         }catch (SaleDoesNotExistException |
                 CustomerDoesNotExistException |
                 CarDoesNotExistException |
+                CarAlreadySoldException |
                 EmployeeDoesNotExistException exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }

@@ -1,4 +1,4 @@
-package com.db.carshop.security;
+package com.db.carshop.core.security;
 
 import com.db.carshop.authentication.LoggedUser;
 import lombok.AllArgsConstructor;
