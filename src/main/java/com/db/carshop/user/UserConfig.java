@@ -1,5 +1,5 @@
 package com.db.carshop.user;
-import com.db.carshop.security.UserDetailsService;
+import com.db.carshop.core.security.UserDetailsService;
 import com.db.carshop.user.impl.UserDetailsServiceImpl;
 import com.db.carshop.user.impl.UserServiceImpl;
 import org.springframework.context.annotation.Bean;

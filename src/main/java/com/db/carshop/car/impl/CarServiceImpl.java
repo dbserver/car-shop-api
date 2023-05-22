@@ -1,13 +1,12 @@
 package com.db.carshop.car.impl;
 
-
 import com.db.carshop.car.CarMapper;
 import com.db.carshop.car.CarRepository;
 import com.db.carshop.car.CarService;
 import com.db.carshop.car.dto.CarDto;
 import com.db.carshop.car.exceptions.CarDoesNotExistException;
 import com.db.carshop.car.model.Car;
-import com.db.carshop.store.StoreService;
+import com.db.carshop.store.util.StoreUtil;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
 public class CarServiceImpl implements CarService {
     private CarRepository repository;
     private CarMapper carMapper;
-    private StoreService storeService;
+    private StoreUtil storeUtil;
 
     @Override
     public Car createCar(CarDto carDto) {
@@ -30,7 +29,7 @@ public class CarServiceImpl implements CarService {
                 .numberPassengers(carDto.getNumberPassengers())
                 .additional(carDto.getAdditional())
                 .available(true)
-                .store(storeService.findById(carDto.getStoreId()))
+                .store(storeUtil.getStore(carDto.getStoreId()))
                 .build();
 
         return repository.save(car);
@@ -41,6 +40,10 @@ public class CarServiceImpl implements CarService {
     public Car updateCar(CarDto dto, Long id) {
         Car car = getById(id);
         carMapper.updateCarFromDto(dto, car);
+
+        if(dto.getStoreId() != null){
+            car.setStore(storeUtil.getStore(dto.getStoreId()));
+        }
 
         return repository.save(car);
     }
@@ -69,16 +72,6 @@ public class CarServiceImpl implements CarService {
         }
         repository.deleteById(id);
     }
-
-   /* @Override
-    public Car updatEmployeeBoughtCar(Employee employee, Car car) {
-        return repository.save(car);
-    }
-
-    @Override
-    public Car updatEmployeeSoldCar(Employee employee, Car car) {
-        return repository.save(car);
-    }*/
 
 
 }

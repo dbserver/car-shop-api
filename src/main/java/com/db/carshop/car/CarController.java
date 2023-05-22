@@ -3,6 +3,7 @@ package com.db.carshop.car;
 import com.db.carshop.car.dto.CarDto;
 import com.db.carshop.car.exceptions.CarDoesNotExistException;
 import com.db.carshop.car.model.Car;
+import com.db.carshop.store.exception.StoreDoesNotExistException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class CarController {
     public ResponseEntity<Object> createCar(@RequestBody CarDto dto) {
         try{
             return new ResponseEntity<>(carService.createCar(dto), HttpStatus.CREATED);
-        }catch (Exception exception){
+        }catch (StoreDoesNotExistException exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -30,7 +31,7 @@ public class CarController {
     public ResponseEntity<Object> updateCar(@RequestBody CarDto dto, @PathVariable Long id) {
         try{
             return new ResponseEntity<>(carService.updateCar(dto, id), HttpStatus.OK);
-        }catch (CarDoesNotExistException exception){
+        }catch (CarDoesNotExistException | StoreDoesNotExistException exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }

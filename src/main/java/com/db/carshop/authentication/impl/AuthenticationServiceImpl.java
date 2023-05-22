@@ -2,7 +2,7 @@ package com.db.carshop.authentication.impl;
 
 
 import com.db.carshop.authentication.AuthenticationService;
-import com.db.carshop.security.impl.UserDetailsImpl;
+import com.db.carshop.core.security.impl.UserDetailsImpl;
 import com.db.carshop.user.User;
 import com.db.carshop.user.UserService;
 import lombok.AllArgsConstructor;

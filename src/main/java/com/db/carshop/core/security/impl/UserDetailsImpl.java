@@ -1,4 +1,4 @@
-package com.db.carshop.security.impl;
+package com.db.carshop.core.security.impl;
 
 import com.db.carshop.user.User;
 import lombok.AllArgsConstructor;
@@ -20,8 +20,6 @@ public class UserDetailsImpl implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
 
     public static UserDetailsImpl build(User user) {
-
-        System.out.println("pass" + user.getPassword());
 
         return new UserDetailsImpl(
                 user.getId(),
